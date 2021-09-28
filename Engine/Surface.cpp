@@ -1,5 +1,16 @@
 #include "Surface.h"
+#include "ChiliWin.h"
 #include <cassert>
+#include <fstream>
+
+Surface::Surface(const std::string& filename)
+{
+    // TODO: onemli bak incele burayi. sprite drawing tutoryali. 10. dk sonrasi
+    std::ifstream file(filename, std::ios::binary);
+    BITMAPFILEHEADER bmFileHeader;
+    file.read(reinterpret_cast<char*>(&bmFileHeader), sizeof(bmFileHeader));
+    // TODO 13.dk
+}
 
 Surface::Surface(int width_in, int height_in)
     :
