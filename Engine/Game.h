@@ -43,6 +43,6 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
-	Surface surface = Surface("dib32.bmp");
+	Surface surface = Surface("dibr.bmp");
 	/********************************/
 };

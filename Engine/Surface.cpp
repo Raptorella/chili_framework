@@ -20,6 +20,8 @@ Surface::Surface(const std::string& filename)
     assert(bmInfoHeader.biBitCount == 24 || bmInfoHeader.biBitCount == 32);
     assert(bmInfoHeader.biCompression == BI_RGB);
 
+    const bool is32b = bmInfoHeader.biBitCount == 32;
+
     width = bmInfoHeader.biWidth;
 
     int yStart;
@@ -53,8 +55,15 @@ Surface::Surface(const std::string& filename)
         for (int x = 0; x < width; x++)
         {
             PutPixel(x, y, Color( file.get(), file.get(), file.get() ));
+            if (is32b)
+            {
+                file.seekg(1, std::ios::cur);
+            }
         }
-        file.seekg(padding, std::ios::cur);
+        if (!is32b)
+        {
+            file.seekg(padding, std::ios::cur);
+        }
     }
 }
 
