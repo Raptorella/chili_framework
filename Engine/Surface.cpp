@@ -17,7 +17,7 @@ Surface::Surface(const std::string& filename)
     file.read(reinterpret_cast<char*>(&bmInfoHeader), sizeof(bmInfoHeader));
 
     //r,g,b each 8 bits => 8*3=24 as color. 8 bit => 1 byte.
-    assert(bmInfoHeader.biBitCount == 24);
+    assert(bmInfoHeader.biBitCount == 24 || bmInfoHeader.biBitCount == 32);
     assert(bmInfoHeader.biCompression == BI_RGB);
 
     width = bmInfoHeader.biWidth;
