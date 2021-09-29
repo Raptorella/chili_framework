@@ -54,7 +54,5 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	//gfx.DrawSprite(200, 200, surface);
-	gfx.DrawSprite(0, 0, surface);
-	RectI rect = new RectI();
+	gfx.DrawSprite( wnd.mouse.GetPosX(), wnd.mouse.GetPosY(), { 32, 64, 48, 96 }, {100, 300, 100, 300}, surface);
 }
