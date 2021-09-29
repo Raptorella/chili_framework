@@ -21,6 +21,7 @@
 #include "MainWindow.h"
 #include "Game.h"
 
+
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
@@ -55,4 +56,5 @@ void Game::ComposeFrame()
 {
 	//gfx.DrawSprite(200, 200, surface);
 	gfx.DrawSprite(0, 0, surface);
+	RectI rect = new RectI();
 }
