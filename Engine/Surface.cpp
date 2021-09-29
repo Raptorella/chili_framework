@@ -7,6 +7,9 @@ Surface::Surface(const std::string& filename)
 {
     // TODO: onemli bak incele burayi. sprite drawing tutoryali. 10. dk sonrasi
     std::ifstream file(filename, std::ios::binary);
+
+    assert(file);
+
     BITMAPFILEHEADER bmFileHeader;
     file.read(reinterpret_cast<char*>(&bmFileHeader), sizeof(bmFileHeader));
 
@@ -18,7 +21,25 @@ Surface::Surface(const std::string& filename)
     assert(bmInfoHeader.biCompression == BI_RGB);
 
     width = bmInfoHeader.biWidth;
-    height = bmInfoHeader.biHeight;
+
+    int yStart;
+    int yEnd;
+    int delta_y;
+    if (bmInfoHeader.biHeight < 0)
+    {
+        height = -bmInfoHeader.biHeight;
+        yStart = 0;
+        yEnd = height;
+        delta_y = 1;
+    }
+    else
+    {
+        height = bmInfoHeader.biHeight;
+        yStart = height - 1;
+        yEnd = -1;
+        delta_y = -1;
+    }
+
 
     pPixels = new Color[width * height];
 
@@ -27,7 +48,7 @@ Surface::Surface(const std::string& filename)
     //there is some padding for each row to make it fit in 4 bytes. width is eleman number.
     const int padding = (4 - (width * 3) % 4) % 4;
 
-    for (int y = height - 1; y > 0; y--)
+    for (int y = yStart; y != yEnd; y += delta_y)
     {
         for (int x = 0; x < width; x++)
         {
