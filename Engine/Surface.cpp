@@ -9,7 +9,32 @@ Surface::Surface(const std::string& filename)
     std::ifstream file(filename, std::ios::binary);
     BITMAPFILEHEADER bmFileHeader;
     file.read(reinterpret_cast<char*>(&bmFileHeader), sizeof(bmFileHeader));
-    // TODO 13.dk
+
+    BITMAPINFOHEADER bmInfoHeader;
+    file.read(reinterpret_cast<char*>(&bmInfoHeader), sizeof(bmInfoHeader));
+
+    //r,g,b each 8 bits => 8*3=24 as color. 8 bit => 1 byte.
+    assert(bmInfoHeader.biBitCount == 24);
+    assert(bmInfoHeader.biCompression == BI_RGB);
+
+    width = bmInfoHeader.biWidth;
+    height = bmInfoHeader.biHeight;
+
+    pPixels = new Color[width * height];
+
+    file.seekg(bmFileHeader.bfOffBits);
+
+    //there is some padding for each row to make it fit in 4 bytes. width is eleman number.
+    const int padding = (4 - (width * 3) % 4) % 4;
+
+    for (int y = height - 1; y > 0; y--)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            PutPixel(x, y, Color( file.get(), file.get(), file.get() ));
+        }
+        file.seekg(padding, std::ios::cur);
+    }
 }
 
 Surface::Surface(int width_in, int height_in)
