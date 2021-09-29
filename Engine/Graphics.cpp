@@ -402,10 +402,10 @@ void Graphics::DrawSprite(int x, int y, RectI srcRect, const RectI& clip, const 
 	{
 		for (int sx = srcRect.left; sx < srcRect.right; sx++)
 		{
-			const Color srcPixel = s.GetPixel(sx, sy);
+			Color srcPixel = s.GetPixel(sx, sy);
 			if (srcPixel != chroma)
 			{
-				PutPixel(x + sx - srcRect.left, y + sy - srcRect.top, srcPixel);
+				Graphics::PutPixel(x + sx - srcRect.left, y + sy - srcRect.top, srcPixel);
 			}
 		}
 	}
